@@ -1,0 +1,123 @@
+/* CSS de Admin header, AdminNavigation y AdminLayout */
+
+.admin-header {
+  background-color: #ffffff;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+}
+
+.user-info {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.arrow {
+  margin-left: 5px;
+  font-size: 0.8em;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 5px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown a,
+.dropdown button {
+  text-align: left;
+  padding: 5px 10px;
+  color: #333;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown a:hover,
+.dropdown button:hover {
+  background-color: #eee;
+}
+
+.admin-navigation ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.admin-navigation li {
+    padding: 10px;
+}
+
+.admin-navigation a {
+    text-decoration: none;
+    color: white;
+    display: block;
+}
+
+.admin-navigation a:hover {
+    color: #007bff;
+}
+
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.admin-sidebar {
+    width: 250px;
+    background-color: #314654;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-info {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.user-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+}
+
+.user-name {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.user-role {
+    font-size: 0.9em;
+    color: #ccc;
+}
+
+.admin-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.admin-page-header {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+.admin-page-content {
+    margin: 0;
+    padding: 0;
+}
