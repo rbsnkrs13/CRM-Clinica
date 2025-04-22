@@ -1,108 +1,55 @@
+<script>
+import FullCalendar from '@fullcalendar/vue3';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import AdminLayout from '@/Layouts/AdminLayout.vue';
+
+export default {
+  components: {
+    FullCalendar,
+  },
+  layout: AdminLayout,
+  data() {
+    return {
+      calendarOptions: {
+        plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+        initialView: 'timeGridWeek',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay',
+        },
+        weekends: true,
+        scrollTime: '10:00:00',
+        slotMinTime: '10:00:00',
+        slotMaxTime: '21:00:00',
+        slotDuration: '00:30:00',
+        slotLabelFormat: {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false,
+        },
+        height: 'auto',
+        editable: false,
+        selectable: false,
+        events: [], // Sin eventos por ahora
+      },
+    };
+  },
+};
+</script>
+
 <template>
-    <div>
-      <FullCalendar
-        ref="calendarRef"
-        :options="calendarOptions"
-      />
-  
-      <!-- Modal de nueva cita -->
-      <Modal v-if="showModal" @close="closeModal">
-        <AppointmentForm
-          :selectedDate="selectedDate"
-          :professionalId="professionalId"
-          @saved="handleAppointmentSaved"
-        />
-      </Modal>
-  
-      <!-- Menú contextual -->
-      <ContextMenu
-        v-if="contextMenu.visible"
-        :x="contextMenu.x"
-        :y="contextMenu.y"
-        @new-appointment="openModal(contextMenu.date)"
-        @delete-appointment="deleteAppointment(contextMenu.appointmentId)"
-      />
-    </div>
-  </template>
-  
-  <script setup>
-  import { ref, reactive } from 'vue'
-  import FullCalendar from '@fullcalendar/vue3'
-  import timeGridPlugin from '@fullcalendar/timegrid'
-  import interactionPlugin from '@fullcalendar/interaction'
-  import Modal from '@/Components/Modal.vue'
-  import AppointmentForm from '@/Pages/Admin/Appointments/AppointmentForm.vue'
-  import ContextMenu from '@/Components/Calendar/ContextMenu.vue'
-  import { router } from '@inertiajs/vue3'
-  
-  const calendarRef = ref(null)
-  const showModal = ref(false)
-  const selectedDate = ref(null)
-  const professionalId = ref($page.props.auth.user.professional.id)
-  
-  const contextMenu = reactive({
-    visible: false,
-    x: 0,
-    y: 0,
-    date: null,
-    appointmentId: null,
-  })
-  
-  const appointments = ref([])
-  
-  const fetchAppointments = async () => {
-    // Aquí haces un fetch a tu backend para las citas de este profesional
-    appointments.value = await fetch(`/api/professionals/${professionalId.value}/appointments`).then(res => res.json())
-  }
-  
-  const calendarOptions = {
-    plugins: [timeGridPlugin, interactionPlugin],
-    initialView: 'timeGridWeek',
-    events: appointments,
-    allDaySlot: false,
-    slotMinTime: '08:00:00',
-    slotMaxTime: '20:00:00',
-    editable: false,
-    selectable: true,
-    height: 'auto',
-    firstDay: 1,
-    eventClick(info) {
-      contextMenu.visible = true
-      contextMenu.x = info.jsEvent.pageX
-      contextMenu.y = info.jsEvent.pageY
-      contextMenu.appointmentId = info.event.id
-    },
-    dateClick(info) {
-      contextMenu.visible = true
-      contextMenu.x = info.jsEvent.pageX
-      contextMenu.y = info.jsEvent.pageY
-      contextMenu.date = info.dateStr
-    },
-  }
-  
-  const openModal = (date) => {
-    selectedDate.value = date
-    showModal.value = true
-    contextMenu.visible = false
-  }
-  
-  const closeModal = () => {
-    showModal.value = false
-    selectedDate.value = null
-  }
-  
-  const handleAppointmentSaved = () => {
-    closeModal()
-    fetchAppointments()
-  }
-  
-  const deleteAppointment = async (id) => {
-    await router.delete(`/admin/appointments/${id}`)
-    fetchAppointments()
-    contextMenu.visible = false
-  }
-  
-  // Inicializar citas
-  fetchAppointments()
-  </script>
-  
+  <div class="calendar-container p-4">
+    <FullCalendar :options="calendarOptions" />
+  </div>
+</template>
+
+<style scoped>
+.calendar-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+</style>
